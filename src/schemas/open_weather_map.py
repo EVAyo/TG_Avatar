@@ -1,27 +1,5 @@
-from dataclasses import dataclass
-from typing import Optional, List, Union
 from pydantic import BaseModel, Field
 
-
-@dataclass
-class WeatherData:
-    """
-    Dataclass to exchange weather data throw tasks.
-    """
-
-    current_temperature: Optional[float] = None
-    current_weather_image: Optional[str] = None
-
-    def is_up_to_date(self) -> bool:
-        """
-        Checking if weather data is up-to-date.
-        Returns:
-            True if weather data is up-to-date else False.
-        """
-        return all(self.__dict__.values())
-
-
-# Models for validating response from OpenWeatherMap
 
 class OpenWeatherMapCoordinates(BaseModel):
     """
@@ -80,7 +58,7 @@ class OpenWeatherMapSys(BaseModel):
 
     type: int
     id: int
-    message: Optional[float] = None
+    message: float | None = None
     country: str
     sunrise: int
     sunset: int
@@ -91,8 +69,8 @@ class OpenWeatherMapRain(BaseModel):
     Model which represents 'rain' field in OpenWeatherMap API response.
     """
 
-    _1h: Union[int, str, float] = Field(alias="1h")
-    _3h: Union[int, str, float] = Field(alias="3h")
+    one_h: int | str | float = Field(alias="1h")
+    three_h: int | str | float = Field(alias="3h")
 
 
 class OpenWeatherMapSnow(BaseModel):
@@ -100,26 +78,26 @@ class OpenWeatherMapSnow(BaseModel):
     Model which represents 'snow' field in OpenWeatherMap API response.
     """
 
-    _1h: Union[int, str, float] = Field(alias="1h")
-    _3h: Union[int, str, float] = Field(alias="3h")
+    one_h: int | str | float = Field(alias="1h")
+    three_h: int | str | float = Field(alias="3h")
 
 
-class OpenWeatherMap(BaseModel):
+class OpenWeatherMapResponse(BaseModel):
     """
     Model which represents full response from OpenWeatherMap API.
     """
 
     coord: OpenWeatherMapCoordinates
-    weather: List[OpenWeatherMapWeather]
+    weather: list[OpenWeatherMapWeather]
     base: str
     main: OpenWeatherMapMain
     visibility: int
-    wind: Optional[OpenWeatherMapWind] = None
-    clouds: Optional[OpeWeatherMapClouds] = None
-    rain: Optional[OpenWeatherMapRain] = None
-    show: Optional[OpenWeatherMapSnow] = None
+    wind: OpenWeatherMapWind | None = None
+    clouds: OpeWeatherMapClouds | None = None
+    rain: OpenWeatherMapRain | None = None
+    show: OpenWeatherMapSnow | None = None
     dt: int
-    sys: Optional[OpenWeatherMapSys] = None
+    sys: OpenWeatherMapSys | None = None
     timezone: int
     id: int
     name: str
