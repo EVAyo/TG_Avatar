@@ -2,21 +2,17 @@
 
 ## Description ##
 
-This script updates you avatar in Telegram every minute with adding time and 
-weather data (weather icon and temperature) on it using Telegram API. Weather 
-data getting from OpenWeatherMap API and updates every 10 minutes.
-If all works fine, you will see something like that:
+This script updates you avatar in Telegram every ten minutes with adding  
+weather data (weather icon, temperature, humidity and wind speed) on it 
+using Telegram API. Weather data getting from OpenWeatherMap API and 
+updates every 10 minutes. If all works fine, you will see something like that:
 
-![Avatar Example](example_avatar.png)
-
-Or like that if weather data is not available:
-
-![Avatar Example No Weather](example_avatar_wo_weather.png)
+![Avatar Example](examples/example_static.png)
 
 You can also add background GIF for animating avatar 
 (see "Customization"):
 
-![Avatar Example Animated](example_avatar_animated.gif)
+![Avatar Example Animated](examples/example_animated.gif)
 
 ## Getting Started ##
 
@@ -36,17 +32,6 @@ Note that you should create an account first. Write it to the
 `openweather_api_key` variable in `config.py` or `.env`. Then found you're 
 city's id at openweathermap.org and write it to the 
 `openweather_api_cityid` variable.
-
-3. Installing requirements (not relevant for launching via Docker)
-
-To installing requirements create virtual environment and use it for 
-manual launching:
-
-```shell script
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
 
 ## Customization ##
 
@@ -74,20 +59,12 @@ or in `.env` files (`TIME_ZONE` variable). List of all time zones you
 can found 
 [here](https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568).
 
-## Launching (manual) ##
-
-Execute in shell next command (while located in TG_Avatar base directory):
-
-```shell script
-python -m telegram_avatar
-```
-
 ## Launching (with Docker) ##
 
 First you should build the container:
 
 ```shell script
-sudo docker build --tag tg_avatar .
+docker build --tag tg_avatar .
 ```
 
 Next change variables in `.env` file and launch the container 
@@ -95,7 +72,7 @@ Next change variables in `.env` file and launch the container
 Telegram validation code):
 
 ```shell script
-sudo docker run --restart always --env-file .env --interactive --name tg_avatar_container tg_avatar
+docker run --restart always --env-file .env --interactive --name tg_avatar_container --network host tg_avatar
 ```
 
 ## License ##
